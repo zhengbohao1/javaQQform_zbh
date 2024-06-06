@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--
+    namespace:名称空间
+-->
+<mapper namespace="mapper.userMapper">
+    <insert id="insert_user">
+        insert into user(userId,password)
+        values(#{username},#{password})
+    </insert>
+    <insert id="insert_friend">
+        insert into friend_ship(user_id,friend_id)
+        values(#{senderId},#{getterId})
+    </insert>
+    <select id="get_user" resultType="domain.User">
+        select  * from user where userId=#{username} and password=#{password}
+    </select>
+    <select id="select_by_userid" resultType="domain.User">
+        select * from user where userId=#{username}
+    </select>
+    <select id="checkfriend" resultType="java.lang.Integer">
+        select count(*) from friend_ship where (user_id=#{senderId} and friend_id=#{getterId})or(user_id=#{getterId} and friend_id=#{senderId})
+    </select>
+    <select id="get_friends_1" resultType="java.lang.String">
+        select friend_id from friend_ship where user_id=#{userId}
+    </select>
+    <select id="get_friends_2" resultType="java.lang.String">
+        select user_id from friend_ship where friend_id=#{userId}
+    </select>
+</mapper>
